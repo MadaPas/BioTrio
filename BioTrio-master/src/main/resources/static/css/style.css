@@ -1,0 +1,21 @@
+#bootstrap-overrides{
+    background-color: #22276d;
+    color: white;
+}
+#bootstrap-override-background{
+    background-color: #22276d;
+}
+
+.textShadow{
+    text-shadow: 1px 1px 2px black;
+}
+
+.textCenterDescription{
+    text-align: center;
+    padding: 0% 15% 0% 15%;
+}
+
+.whiteBackground{
+    background-color: white;
+    color: #22276d;
+}

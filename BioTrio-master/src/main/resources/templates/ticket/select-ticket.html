@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Find Ticket</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!-- For button images -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+</head>
+<body id="bootstrap-overrides">
+
+<!--   Dynamic navbar - Pass parameter to navbar fragment-->
+<div th:object="${principal}">
+    <th:block th:include="fragments/navbar :: navbar(user = *{accessLevel.toUpperCase()})"></th:block>
+</div>
+
+<div style="padding: 5%">
+    <h3>Found tickets:</h3>
+
+    <div th:if="${ticketListSize != 0}">
+    <table class="table table-hover" >
+        <thead>
+            <tr>
+                <th scope="col">First Name </th>
+                <th scope="col">Last Name </th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Movie</th>
+                <th colspan="2" scope="col">Playing date and time</th>
+                <th scope="col">Theatre</th>
+                <th scope="col">Row</th>
+                <th scope="col">Seat</th>
+                <th scope="col">Used</th>
+            </tr>
+        </thead>
+            <tbody>
+                <tr th:each="ticket, iter: ${ticketList}">
+                    <td th:text="${ticket.first_name}"></td>
+                    <td th:text="${ticket.last_name}"></td>
+                    <td th:text="${ticket.phone_nb}"></td>
+                    <td th:text="${ticket.movie_name}"></td>
+                    <td th:text="${ticket.date}"></td>
+                    <td th:text="${ticket.time}"></td>
+                    <td th:text="${ticket.theatre_name}"></td>
+                    <td th:text="${ticket.seat_row}"></td>
+                    <td th:text="${ticket.seat_nb}"></td>
+                    <td th:if="${!ticket.used}"><a th:href="@{'/select-ticket/' + ${iter.index}}"
+                                                           class="btn btn-primary fas fa-check"></a></td>
+                    <td th:if="${ticket.used}"><button th:href="@{'/select-ticket/' + ${iter.index}}"
+                                                   class="btn btn-danger fas  fa-exclamation" disabled></button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${ticketListSize == 0}">
+        <span>No tickets</span>
+
+    </div>
+
+
+</div>
+
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+<script th:if="${ticketListSize == 0}" >alert("There are no such tickets") </script> <!--NOT WORKING-->
+
+</body>
+</html>

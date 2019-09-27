@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Bio Trio Home</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!-- For button images -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+</head>
+<body id="bootstrap-overrides">
+
+<!--   Dynamic navbar - Pass parameter to navbar fragment-->
+<div th:object="${principal}">
+    <th:block th:include="fragments/navbar :: navbar(user = *{accessLevel.toUpperCase()})"></th:block>
+</div>
+
+<div style="padding: 5%;">
+
+    <div style="max-width: 100vw; align-content: center; padding-top: 20px; justify-content: center; display: flex; padding-bottom: 50px">
+        <a th:href="@{'/employees/add_employee'}" class="btn btn-primary" style="width:90%;">Add Employee</a>
+    </div>
+
+    <table class="table table-striped" style="padding: 2rem;">
+        <thead>
+        <th class="col">Employee Username</th>
+        <th class="col" style="min-width: 230px">Employee Access-Level</th>
+        <th class="col">Edit Employee</th>
+        <th class="col">Delete Employee</th>
+        </thead>
+        <tr th:each="employee, iter : ${employees}">
+            <td th:text="${employee.username}" ></td>
+            <td th:text="${employee.accessLevel}"></td>
+            <td><a th:href="@{'/employees/edit/' + ${iter.index}}" class="btn btn-info fas fa-pen"></a></td>
+            <td th:if="${employee.accessLevel.toUpperCase() == 'BASIC'}">
+                <a th:href="@{'/employees/delete/' + ${iter.index}}" class="btn btn-danger fas fa-trash"></a>
+            </td>
+            <td th:if="${employee.accessLevel.toUpperCase() == 'ADMIN'}">
+                <button th:href="@{'/employees/delete/' + ${iter.index}}" class="btn btn-danger fas fa-trash" disabled>
+                </button>
+            </td>
+        </tr>
+    </table>
+
+
+</div>
+
+
+<!-- Check what this does -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+</body>
+</html>
